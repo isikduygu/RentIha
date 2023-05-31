@@ -1,0 +1,10 @@
+{% extends 'main/base.html' %} {% block title %}Sign Up{% endblock %} 
+{% load crispy_forms_tags %} {% block content %}
+<div style="margin-top:20px;">
+    <form method="POST" action="{% url 'rent_list' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Kiralama Oluştur</button>
+      </form>
+</div>
+{% endblock %}

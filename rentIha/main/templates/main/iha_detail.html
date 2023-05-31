@@ -1,0 +1,90 @@
+{% extends 'main/base.html' %} {% block title %}Sign Up{% endblock %} 
+{% load crispy_forms_tags %} {% block content %}
+<h1>Brand: {{ iha.brand }}</h1>
+<h1>Model: {{ iha.model }}</h1>
+<h1>Weight: {{ iha.weight }} grams</h1>
+<h1>Category: {{ iha.category }}</h1>
+
+<!-- eğer login olmuş kullanıcıysa ve superadminse gözüksün -->
+{% if user.is_authenticated and user.is_staff %}
+<button id="editButton" class="btn btn-primary">Düzenle</button>
+{% endif %} 
+
+<form id="editForm" method="POST" action="{% url 'iha_detail' iha.id %}" style="display: none;">
+
+    {% csrf_token %}
+    <span>Brand:</span><input class="form-control" type="text" name="brand" id="brand" value="{{iha.brand}}"> <br>
+    <span>Model:</span><input class="form-control" type="text" name="model" id="model" value="{{iha.model}}"> <br>
+    <span>Weight:</span><input class="form-control" type="text" name="weight" id="weight" value="{{iha.weight}}"> <br>
+    <span>Category:</span><input class="form-control" type="text" name="category" id="category" value="{{iha.category}}">
+
+    <button type="submit" class="btn btn-primary">Güncelle</button>
+    <button id="deleteButton" class="btn btn-danger">Sil</button>
+</form>
+
+<script>
+    // DELETE isteği göndermek için JavaScript kodları
+    document.getElementById('deleteButton').addEventListener('click', function() {
+        var xhr = new XMLHttpRequest();
+        var url = "{% url 'iha_detail' iha.id %}"; // İsteğk bu url'e gönderilir.
+
+        xhr.open('DELETE', url, true);
+        xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+
+        xhr.onload = function() {
+            if (xhr.status === 204) {
+                // Başarılı bir şekilde silindiğinde iha_list sayfasına yönlenir.
+                window.location.href = "{% url 'iha_list' %}";
+            } else {
+                // Silme işlemi başarısız olduğunda kontrol amaçlı yazılmıştır.
+                console.log('Silme işlemi başarısız oldu.');
+            }
+        };
+        xhr.send();
+    });
+
+// PUT isteği göndermek için JavaScript kodları
+
+// Düzenle butonuna bastığımız zaman form ve silme editleme butonları görünür oluyor düzenle butonu kayboluyor.
+document.getElementById('editButton').addEventListener('click', function() {
+  document.getElementById('editForm').style.display = 'block';
+  document.getElementById('editButton').style.display = 'none';
+});
+
+
+document.getElementById('editForm').addEventListener('submit', function(event) {
+  event.preventDefault(); // Formun varsayılan gönderme işlemini engellemek için
+
+  // Form alanlarındaki verileri alır.
+  var brandValue = document.getElementById('brand').value;
+  var modelValue = document.getElementById('model').value;
+  var weightValue = document.getElementById('weight').value;
+  var categoryValue = document.getElementById('category').value;
+
+  // PUT isteği göndermek için XMLHttpRequest işlemi yapılmıştır.
+  var xhr = new XMLHttpRequest();
+  var url = "{% url 'iha_detail' iha.id %}";
+
+  xhr.open('PUT', url, true);
+  xhr.setRequestHeader('X-CSRFToken', '{{ csrf_token }}');
+  xhr.setRequestHeader('X-HTTP-Method-Override', 'PUT');
+
+  var formData = new FormData(document.getElementById('editForm'));
+
+xhr.onload = function() {
+    if (xhr.status === 200) {
+        // Başarılı bir şekilde güncellendiğinde iha_list sayfasına yönlenir.
+        window.location.href = "{% url 'iha_list' %}";
+    } else {
+        // Güncelleme işlemi başarısız olduğunda console'a yazar kontrol amaçlı yapılmıştır.
+        console.log('Güncelleme işlemi başarısız oldu.');
+    }
+};
+
+xhr.send(new URLSearchParams(formData));
+});
+</script>
+
+
+{% endblock %}
+

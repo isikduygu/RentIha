@@ -1,0 +1,28 @@
+{% extends 'main/base.html' %}
+{% block title %}Iha List{% endblock %}
+
+{% block content %}
+    <form method="GET" action="{% url 'iha_list' %}">
+        <div class="input-group" style="display:flex; justify-content:center; margin-top:20px">
+            <input type="text" name="search" class="search brand" placeholder="Search...">
+            <select name="category" class="custom-select" id="inputGroupSelect04">
+              <option value="">All</option>
+              <option value="Ağır Taaruz">Ağır Taaruz</option>
+              <option value="56">İha</option>
+            </select>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="submit">Filter</button>
+            </div>
+          </div>
+    </form>
+    <div style="display:flex; flex-wrap: wrap;">
+    {% for iha in iha_list %}
+    <div style="border: 1px solid #aca7a7; width: 250px; margin:20px; border-radius: 20px; padding:20px;">
+        <h4>Brand: {{ iha.brand }}</h4>
+        <h4>Model: {{ iha.model }}</h4>
+        <a href="/iha-list/{{ iha.id }}">Ayrıntılı Bilgi..</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+

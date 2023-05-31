@@ -1,0 +1,15 @@
+{% extends 'main/base.html' %}
+{% block title %}Iha List{% endblock %}
+
+{% block content %}
+    <div style="display:flex; flex-wrap: wrap;">
+    {% for iha in rents %}
+    {% csrf_token %}
+    <div style="border: 1px solid #aca7a7; width: 250px; margin:20px; border-radius: 20px; padding:20px;">
+        <h4>İha: {{ iha.iha }}</h4> <br>
+        <h5>Bitiş tarihi: {{ iha.end_date }}</h5> <br>
+        <h5>Başlangıç tarihi: {{ iha.start_date }}</h5>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
