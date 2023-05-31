@@ -92,7 +92,7 @@ Kullanıcılar siteye kayıt olup giriş yapabilir.  2 tane rol ayarlanmıştır
 - Birim testi yazılmamıştır.
 - Permission kısımlarında eksiklikler vardır.
 - Search işlemi sadece brand (marka) ve category kısmında çalışmaktadır.
-- Silme ve kayıt alma işlemlerinden sonra bazı yerlerde yönlendirme yapılmı bazı yerlerde yapılmamıştır.
+- Silme ve kayıt alma işlemlerinden sonra bazı yerlerde yönlendirme yapılmış bazı yerlerde yapılmamıştır.
 
 
   
